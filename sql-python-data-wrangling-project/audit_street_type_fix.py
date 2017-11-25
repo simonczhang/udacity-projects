@@ -1,14 +1,3 @@
-"""
-Your task in this exercise has two steps:
-
-- audit the OSMFILE and change the variable 'mapping' to reflect the changes needed to fix 
-    the unexpected street types to the appropriate ones in the expected list.
-    You have to add mappings only for the actual problems you find in this OSMFILE,
-    not a generalized solution, since that may and will depend on the particular area you are auditing.
-- write the update_name function, to actually fix the street name.
-    The function takes a string with street name as an argument and should return the fixed name
-    We have provided a simple test so that you see what exactly is expected
-"""
 import xml.etree.cElementTree as ET
 from collections import defaultdict
 import re
@@ -18,11 +7,10 @@ OSMFILE = "houston_texas.osm"
 street_type_re = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 
 
-expected = ['Street', 'Avenue', 'Boulevard', 'Drive', 'Court', 'Place', 'Square', 
+expected = ['Street', 'Avenue', 'Boulevard', 'Drive', 'Court', 'Place', 'Square',
 			'Lane', 'Road', 'Trail', 'Parkway', 'Commons', 'Circle', 'Freeway',
 			'Highway', 'Plaza', 'Way']
 
-# UPDATE THIS VARIABLE
 mapping = { 'Ave': 'Avenue',
 			'Ave.': 'Avenue',
 			'Blvd': 'Boulevard',
@@ -81,17 +69,12 @@ def update_name(name, mapping):
 
 def test():
     st_types = audit(OSMFILE)
-    #assert len(st_types) == 3
     pprint.pprint(dict(st_types))
 
     for st_type, ways in st_types.items():
         for name in ways:
             better_name = update_name(name, mapping)
             print(name, "=>", better_name)
-            #if name == "West Lexington St.":
-                #assert better_name == "West Lexington Street"
-            #if name == "Baldwin Rd.":
-                #assert better_name == "Baldwin Road"
 
 
 if __name__ == '__main__':

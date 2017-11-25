@@ -10,7 +10,7 @@ osm_file = open("sample.osm", "r")
 street_type_re = re.compile(r'\S+\.?$', re.IGNORECASE)
 street_types = defaultdict(set)
 
-expected = ['Street', 'Avenue', 'Boulevard', 'Drive', 'Court', 'Place', 'Square', 
+expected = ['Street', 'Avenue', 'Boulevard', 'Drive', 'Court', 'Place', 'Square',
 			'Lane', 'Road', 'Trail', 'Parkway', 'Commons', 'Circle', 'Freeway',
 			'Highway', 'Plaza', 'Way']
 
@@ -21,7 +21,7 @@ def audit_street_type(street_types, street_name):
         if street_type not in expected:
         	street_types[street_type].add(street_name)
 
-        
+
 
 def print_sorted_dict(d):
     keys = d.keys()
@@ -40,7 +40,7 @@ def audit():
 				if is_street_name(tag):
 					audit_street_type(street_types, tag.attrib['v'])
 	pprint.pprint(dict(street_types))
-    #print_sorted_dict(street_types)    
+   
 
 if __name__ == '__main__':
     audit()

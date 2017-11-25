@@ -43,7 +43,7 @@ mapping = { 'Ave': 'Avenue',
 			'Stree': 'Street',
 			'street': 'Street'
             }
-            
+
 def update_name(name, mapping):
 
     list_name = name.split(' ')
@@ -57,7 +57,7 @@ def update_name(name, mapping):
     else:
     	return name
 
-    	
+
 def fix_postcode(code):
 	if len(code) >= 5:
 		start_postcode = code.find('7')
@@ -76,7 +76,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
     way_nodes = []
     tags = []  # Handle secondary tags the same way for both node and way elements
 
-    # YOUR CODE HERE
+
     if element.tag == 'node':
         node_attribs['id'] = element.attrib['id']
         node_attribs['lat'] = element.attrib['lat']
@@ -86,7 +86,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
         node_attribs['version'] = element.attrib['version']
         node_attribs['changeset'] = element.attrib['changeset']
         node_attribs['timestamp'] = element.attrib['timestamp']
-        
+
         for tag in element.iter("tag"):
             tag_dict = {}
             m = PROBLEMCHARS.search(tag.attrib['k'])
@@ -103,22 +103,22 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     	tag_dict['value'] = fix_postcode(tag.attrib['v'])
                     else:
                     	tag_dict['value'] = tag.attrib['v']
-                    
+
                     tag_dict['type'] = k_split[0]
-                    
+
                     tags.append(tag_dict)
                 else:
                     tag_dict['id'] = element.attrib['id']
                     tag_dict['key'] = tag.attrib['k']
                     tag_dict['value'] = tag.attrib['v']
                     tag_dict['type'] = 'regular'
-                    
+
                     tags.append(tag_dict)
             else:
                 continue
-            
+
         return {'node': node_attribs, 'node_tags': tags}
-        
+
     elif element.tag == 'way':
         way_attribs['id'] = element.attrib['id']
         way_attribs['user'] = element.attrib['user']
@@ -126,17 +126,17 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
         way_attribs['version'] = element.attrib['version']
         way_attribs['changeset'] = element.attrib['changeset']
         way_attribs['timestamp'] = element.attrib['timestamp']
-        
+
         count = 0
         for tag in element.iter("nd"):
             tag_dict1 = {}
             tag_dict1['id'] = element.attrib['id']
             tag_dict1['node_id'] = tag.attrib['ref']
             tag_dict1['position'] = count
-            
+
             way_nodes.append(tag_dict1)
             count += 1
-            
+
         for tag in element.iter("tag"):
             tag_dict = {}
             m = PROBLEMCHARS.search(tag.attrib['k'])
@@ -154,20 +154,20 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     else:
                     	tag_dict['value'] = tag.attrib['v']
                     tag_dict['type'] = k_split[0]
-                    
+
                     tags.append(tag_dict)
                 else:
                     tag_dict['id'] = element.attrib['id']
                     tag_dict['key'] = tag.attrib['k']
                     tag_dict['value'] = tag.attrib['v']
                     tag_dict['type'] = 'regular'
-                    
-                    
+
+
                     tags.append(tag_dict)
             else:
                 continue
-            
-            
+
+
         return {'way': way_attribs, 'way_nodes': way_nodes, 'way_tags': tags}
 
 
@@ -191,7 +191,7 @@ def validate_element(element, validator, schema=SCHEMA):
         field, errors = next(validator.errors.iteritems())
         message_string = "\nElement of type '{0}' has the following errors:\n{1}"
         error_string = pprint.pformat(errors)
-        
+
         raise Exception(message_string.format(field, error_string))
 
 
@@ -250,6 +250,4 @@ def process_map(file_in, validate):
 
 
 if __name__ == '__main__':
-    # Note: Validation is ~ 10X slower. For the project consider using a small
-    # sample of the map when validating.
     process_map(OSM_PATH, validate=True)
