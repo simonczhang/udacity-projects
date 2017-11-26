@@ -27,5 +27,5 @@ First, I import the xml data and clean street type and zip code inconsistencies 
 7. schema.py:
  The schema for sqlite Houston database
 
-8. Write Up.pdf:
-	The actual project write up portion
+8. project-write-up.md:
+	The written process and analysis of project
