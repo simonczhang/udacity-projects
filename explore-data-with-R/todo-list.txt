@@ -1,0 +1,2 @@
+1. Create new, updated Markdown HTML file and make sure everything looks right
+2. Push finished R project to github
